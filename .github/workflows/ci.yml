@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Build the Docker image
+      run: docker build -t docker-ansible .
+
+    - name: Test the Docker image
+      run: docker run --name test-container -d --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro docker-ansible
+
+    - name: Verify Ansible is available in the container
+      run: docker exec --tty test-container env TERM=xterm ansible --version
+
+    - name: Verify that Systemd is working
+      run: docker exec --tty test-container env TERM=xterm sh -c 'systemctl status --no-pager'
+    
+    - name: Verify that `ansible` user exists and is a sudoer
+      run: docker exec --tty test-container env TERM=xterm sudo -u ${ANSIBLE_USER} sudo -v
+      env:
+        ANSIBLE_USER: ansible

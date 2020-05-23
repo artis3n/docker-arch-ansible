@@ -1,0 +1,47 @@
+name: Deploy Docker Image
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy the Docker image to GitHub Package Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: artis3n/docker-arch-ansible/docker-arch-ansible
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        tag_names: true
+
+    - name: Deploy the Docker image to Docker Hub
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: artis3n/docker-arch-ansible
+        username: ${{ secrets.docker_username }}
+        password: ${{ secrets.docker_password }}
+        tag_names: true
+    
+    - name: Deploy the Docker image to GitHub Package Registry (latest tag)
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: artis3n/docker-arch-ansible/docker-arch-ansible
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+
+    - name: Deploy the Docker image to Docker Hub (latest tag)
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: artis3n/docker-arch-ansible
+        username: ${{ secrets.docker_username }}
+        password: ${{ secrets.docker_password }}
