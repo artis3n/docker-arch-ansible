@@ -29,4 +29,6 @@ build:
 
 .PHONY: run
 run:
-	docker run -it --rm --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro artis3n/docker-arch-ansible:$${TAG:-latest}
+	docker run -d --rm --name runner artis3n/docker-arch-ansible:$${TAG:-latest}
+	-docker exec -it runner /bin/sh
+	docker stop runner
