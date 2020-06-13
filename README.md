@@ -1,6 +1,7 @@
 # docker-arch-ansible
 
-Arch Linux Docker container for Ansible playbook and role testing. Inspired by <https://github.com/geerlingguy/docker-ubuntu2004-ansible>.
+Arch Linux Docker container for Ansible playbook and role testing.
+Inspired by <https://github.com/geerlingguy/docker-ubuntu2004-ansible>.
 
 ## Tags
 
@@ -10,11 +11,12 @@ The latest tag is a lightweight image for basic validation of Ansible playbooks.
 
 ## How to Build
 
-This image is built any time a commit is made or merged to the `master` branch. But if you need to build the image on your own locally, do the following:
+This image is built any time a commit is made or merged to the `master` branch.
+But if you need to build the image on your own locally, do the following:
 
   1. [Install Docker](https://docs.docker.com/install/).
   2. `cd` into this directory.
-  3. Run `docker build -t arch-ansible .`
+  3. Run `make build`.
 
 ## How to Use
 

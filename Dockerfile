@@ -21,9 +21,9 @@ ADD https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/mast
 # multiple containers with Molecule (https://github.com/ansible/molecule/issues/1104)
 #
 # Set permissions on /usr/bin/systemctl
-RUN rm -f /lib/systemd/system/systemd*udev* \
-    && rm -f /lib/systemd/system/getty.target \
-    && chmod 0755 /usr/bin/systemctl
+RUN rm -f /lib/systemd/system/systemd*udev* && \
+    rm -f /lib/systemd/system/getty.target && \
+    chmod 0755 /usr/bin/systemctl
 
 RUN groupadd -r ansible && useradd -r -g ansible ansible && \
     mkdir -p /etc/ansible && chown -R ansible:ansible /etc/ansible && \
@@ -34,7 +34,7 @@ USER ansible
 
 RUN pip3 install $pip_packages
 # Install Ansible inventory file
-RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
+RUN printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 ENV term="xterm" \
     container="docker" \

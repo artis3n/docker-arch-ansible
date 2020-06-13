@@ -3,27 +3,22 @@ name: Docker Image CI
 on: [push]
 
 jobs:
-
-  build:
-
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - name: Hadolint
+        run: make lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: docker build -t docker-ansible .
+      run: make build
 
     - name: Test the Docker image
-      run: docker run --name test-container -d docker-ansible
-
-    - name: Verify Ansible is available in the container
-      run: docker exec --tty test-container env ansible --version
-
-    - name: Verify that Systemd is working
-      run: docker exec --tty test-container env sh -c 'systemctl status --no-pager'
-    
-    - name: Verify that `ansible` user exists and is a sudoer
-      run: docker exec --tty test-container env sudo -u ${ANSIBLE_USER} sudo -v
-      env:
-        ANSIBLE_USER: ansible
+      run: make test
