@@ -13,7 +13,9 @@ RUN pacman -Syu --noconfirm && \
               base-devel \
               --noconfirm && \
     # Clean up
-    pacman -Scc --noconfirm --noprogressbar --quiet
+    pacman -Scc --noconfirm --noprogressbar --quiet && \
+    # Fix potential UTF-8 errors with ansible-test.
+    locale-gen en_US.UTF-8
 
 ADD https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl.py /usr/bin/systemctl
 
@@ -25,21 +27,13 @@ RUN rm -f /lib/systemd/system/systemd*udev* && \
     rm -f /lib/systemd/system/getty.target && \
     chmod 0755 /usr/bin/systemctl
 
-RUN groupadd -r ansible && useradd -r -g ansible ansible && \
-    mkdir -p /etc/ansible && chown -R ansible:ansible /etc/ansible && \
-    mkdir -p /home/ansible && chown -R ansible:ansible /home/ansible && \
-    echo '%ansible ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-USER ansible
-
 RUN pip3 install $pip_packages
 # Install Ansible inventory file
-RUN printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
+RUN mkdir /etc/ansible && \
+    printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 ENV term="xterm" \
-    container="docker" \
-    LANG="en_US.UTF-8" \
-    PATH="$PATH:/home/ansible/.local/bin"
+    container="docker"
 
 VOLUME ["/sys/fs/cgroup"]
 ENTRYPOINT  ["/usr/bin/systemctl"]
