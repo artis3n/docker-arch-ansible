@@ -36,9 +36,10 @@ RUN pip3 install $pip_packages
 # Install Ansible inventory file
 RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
-ENV term "xterm" \
-    container "docker" \
-    LANG "en_US.UTF-8"
+ENV term="xterm" \
+    container="docker" \
+    LANG="en_US.UTF-8" \
+    PATH="$PATH:/home/ansible/.local/bin"
 
 VOLUME ["/sys/fs/cgroup"]
 ENTRYPOINT  ["/usr/bin/systemctl"]
