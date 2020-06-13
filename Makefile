@@ -15,12 +15,12 @@ size: build
 	dive artis3n/docker-arch-ansible:$${TAG:-test}
 
 .PHONY: test
-test: install build
+test: build
 	dgoss run -it --rm artis3n/docker-arch-ansible:$${TAG:-test}
 	# CI=true make size
 
 .PHONY: test-edit
-test-edit: install build
+test-edit: build
 	dgoss edit -it --rm artis3n/docker-arch-ansible:$${TAG:-test}
 
 .PHONY: build

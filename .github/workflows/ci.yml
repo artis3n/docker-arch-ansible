@@ -17,6 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Goss
+      uses: e1himself/goss-installation-action@master
+      with:
+        version: 'v0.3.11'
+
     - name: Build the Docker image
       run: make build
 
