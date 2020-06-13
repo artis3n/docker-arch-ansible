@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Hadolint
+        run: make lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Goss
+      uses: e1himself/goss-installation-action@master
+      with:
+        version: 'v0.3.11'
+
+    - name: Build the Docker image
+      run: make build
+
+    - name: Test the Docker image
+      run: make test

@@ -1,0 +1,21 @@
+user:
+  ansible:
+    exists: true
+    groups:
+    - ansible
+    home: /home/ansible
+
+command:
+  ansible --version:
+    exit-status: 0
+    stdout:
+    - executable location = /home/ansible/.local/bin/ansible
+    stderr: []
+  sudo -u ansible sudo -v:
+    exit-status: 0
+    stdout: []
+    stderr: []
+  systemctl status --no-pager:
+    exit-status: 0
+    stdout: []
+    stderr: []
