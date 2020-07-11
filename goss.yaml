@@ -2,7 +2,7 @@ command:
   python --version:
     exit-status: 0
     stdout:
-      - Python 2.
+      - Python 3.
   ansible --version:
     exit-status: 0
     stdout:
