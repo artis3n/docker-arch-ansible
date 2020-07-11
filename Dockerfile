@@ -1,4 +1,4 @@
-FROM terencewestphal/archlinux:latest
+FROM terencewestphal/archlinux@sha256:3bfbfdaa248b1b7162420e6fc82150f1ba8f65043a57a87091a0670ee0196444
 LABEL maintainer="Artis3n"
 
 ARG pip_packages="ansible"
