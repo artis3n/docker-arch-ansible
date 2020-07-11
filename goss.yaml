@@ -1,4 +1,8 @@
 command:
+  python --version:
+    exit-status: 0
+    stdout:
+      - Python 2.
   ansible --version:
     exit-status: 0
     stdout:
@@ -6,5 +10,3 @@ command:
     stderr: []
   systemctl status --no-pager:
     exit-status: 0
-    stdout: []
-    stderr: []
