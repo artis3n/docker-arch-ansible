@@ -16,12 +16,12 @@ size: build
 
 .PHONY: test
 test: build
-	dgoss run -it --rm artis3n/docker-arch-ansible:$${TAG:-test}
+	dgoss run -it --rm --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro artis3n/docker-arch-ansible:$${TAG:-test}
 	# CI=true make size
 
 .PHONY: test-edit
 test-edit: build
-	dgoss edit -it --rm artis3n/docker-arch-ansible:$${TAG:-test}
+	dgoss edit -it --rm --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro artis3n/docker-arch-ansible:$${TAG:-test}
 
 .PHONY: build
 build:
@@ -29,6 +29,6 @@ build:
 
 .PHONY: run
 run: build
-	docker run -d --rm --name runner artis3n/docker-arch-ansible:$${TAG:-test}
+	docker run -id --rm --name runner --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro artis3n/docker-arch-ansible:$${TAG:-test}
 	-docker exec -it runner /bin/sh
 	docker stop runner
