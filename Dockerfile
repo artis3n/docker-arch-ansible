@@ -1,4 +1,4 @@
-FROM terencewestphal/archlinux@sha256:3bfbfdaa248b1b7162420e6fc82150f1ba8f65043a57a87091a0670ee0196444
+FROM archlinux:20200505
 LABEL maintainer="Artis3n"
 
 ARG pip_packages="ansible"
@@ -6,18 +6,18 @@ ARG pip_packages="ansible"
 RUN pacman -Syu --noconfirm && \
     pacman -S python \
               python-pip \
-              systemd-sysvcompat \
+              systemd \
               sudo \
+              cronie \
               git \
               base-devel \
               --noconfirm && \
     # Clean up
     pacman -Scc --noconfirm --noprogressbar --quiet && \
     # Fix potential UTF-8 errors with ansible-test.
-    locale-gen en_US.UTF-8 && \
-    systemctl set-default bootstrap.target
+    locale-gen en_US.UTF-8
 
-STOPSIGNAL SIGRTMIN+3
+ADD https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl.py /usr/bin/systemctl
 
 # Remove unnecessary getty and udev targets that result in high CPU usage when using
 # multiple containers with Molecule (https://github.com/ansible/molecule/issues/1104)
@@ -36,4 +36,4 @@ ENV term="xterm" \
     container="docker"
 
 VOLUME ["/sys/fs/cgroup"]
-ENTRYPOINT ["/usr/sbin/init"]
+ENTRYPOINT  ["/usr/bin/systemctl"]
