@@ -6,7 +6,7 @@ install:
 
 .PHONY: lint
 lint:
-	docker run --rm -i hadolint/hadolint hadolint --ignore DL3013 - < Dockerfile
+	docker run --rm -i hadolint/hadolint hadolint --ignore DL3013 --ignore DL3007 - < Dockerfile
 
 .PHONY: size
 size: build
