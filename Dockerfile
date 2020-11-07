@@ -1,4 +1,4 @@
-FROM archlinux:20200705
+FROM archlinux:latest
 LABEL maintainer="Artis3n"
 
 ENV container="docker"
@@ -7,6 +7,8 @@ ARG pip_packages="ansible"
 RUN pacman -Syu --noconfirm && \
     pacman -S python \
               python-pip \
+              python-wheel \
+              python-setuptools \
               systemd \
               sudo \
               git \
