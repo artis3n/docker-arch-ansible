@@ -6,11 +6,10 @@ install:
 
 .PHONY: lint
 lint:
-	docker run --rm -i hadolint/hadolint hadolint --ignore DL3013 --ignore DL3007 - < Dockerfile
+	hadolint --ignore DL3013 --ignore DL3007 Dockerfile
 
 .PHONY: size
 size: build
-	if [ ! -f /home/linuxbrew/.linuxbrew/bin/brew ]; then /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"; fi
 	if [ ! -f /usr/local/bin/dive ]; then brew install dive; fi;
 	dive artis3n/docker-arch-ansible:$${TAG:-test}
 

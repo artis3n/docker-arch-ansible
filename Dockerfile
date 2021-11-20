@@ -21,12 +21,11 @@ RUN pacman -Syu --noconfirm && \
     locale-gen en_US.UTF-8
 
 COPY container.target /etc/systemd/system/container.target
-RUN ln -sf /etc/systemd/system/container.target /etc/systemd/system/default.target
+RUN ln -sf /etc/systemd/system/container.target /etc/systemd/system/default.target \
+    && mkdir /etc/ansible \
+    && printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
-RUN pip3 install $pip_packages
-# Install Ansible inventory file
-RUN mkdir /etc/ansible && \
-    printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
+RUN pip3 install --no-cache-dir $pip_packages
 
 ENV term="xterm"
 
