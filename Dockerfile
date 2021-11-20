@@ -25,9 +25,9 @@ RUN ln -sf /etc/systemd/system/container.target /etc/systemd/system/default.targ
     && mkdir /etc/ansible \
     && printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
-RUN pip3 install --no-cache-dir $pip_packages
-
 ENV term="xterm"
+
+RUN pip3 install --no-cache-dir $pip_packages
 
 STOPSIGNAL SIGRTMIN+3
 
