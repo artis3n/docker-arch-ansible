@@ -17,7 +17,7 @@ jobs:
 
       - uses: hadolint/hadolint-action@v2.1.0
         with:
-          ignore: DL3013 DL3007
+          ignore: DL3013,DL3007
 
   test:
     runs-on: ubuntu-latest
