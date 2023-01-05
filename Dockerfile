@@ -1,8 +1,7 @@
-FROM archlinux:latest
-LABEL maintainer="Artis3n"
+FROM manjarolinux/base:latest
+LABEL maintainer="captain-proton"
 
 ENV container="docker"
-ARG pip_packages="ansible"
 
 RUN pacman -Syu --noconfirm && \
     pacman -S python \
@@ -14,6 +13,7 @@ RUN pacman -Syu --noconfirm && \
               git \
               base \
               base-devel \
+              ansible-core \
               --noconfirm && \
     # Clean up
     pacman -Scc --noconfirm --noprogressbar --quiet && \
@@ -22,12 +22,9 @@ RUN pacman -Syu --noconfirm && \
 
 COPY container.target /etc/systemd/system/container.target
 RUN ln -sf /etc/systemd/system/container.target /etc/systemd/system/default.target \
-    && mkdir /etc/ansible \
     && printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 ENV term="xterm"
-
-RUN pip3 install --no-cache-dir $pip_packages
 
 STOPSIGNAL SIGRTMIN+3
 
