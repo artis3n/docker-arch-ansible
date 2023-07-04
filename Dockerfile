@@ -27,7 +27,7 @@ RUN ln -sf /etc/systemd/system/container.target /etc/systemd/system/default.targ
 
 ENV term="xterm"
 
-RUN pip3 install --no-cache-dir $pip_packages
+RUN pip3 install --no-cache-dir --break-system-packages $pip_packages
 
 STOPSIGNAL SIGRTMIN+3
 
