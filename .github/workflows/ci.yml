@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: artis3n/docker-ubuntu2104-ansible
+  IMAGE_NAME: artis3n/docker-arch-ansible
 
 jobs:
   lint:
@@ -29,9 +29,6 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Install Goss
-        uses: e1himself/goss-installation-action@v1.2.1
-
       - name: Build and Export
         uses: docker/build-push-action@v4
         with:
@@ -44,4 +41,6 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test the Docker image
-        run: dgoss run -it --rm --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro ${{ env.IMAGE_NAME }}:test
+        run: |
+          docker run --name test-container -d --rm --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro ${{ env.IMAGE_NAME }}:test
+          docker exec --tty test-container env TERM=xterm ansible --version
