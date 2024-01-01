@@ -42,5 +42,5 @@ jobs:
 
       - name: Test the Docker image
         run: |
-          docker run --name test-container -id --rm --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro ${{ env.IMAGE_NAME }}:test
+          docker run --name test-container -d --rm --privileged --cgroupns=host --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw ${{ env.IMAGE_NAME }}:test
           docker exec --tty test-container env TERM=xterm ansible --version
